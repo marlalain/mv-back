@@ -22,7 +22,8 @@ public class Estabelecimento {
 
     private String nome;
 
-    private String endereco;
+    @Embedded
+    private Endereco endereco;
 
     private String telefone;
 

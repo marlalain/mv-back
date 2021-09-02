@@ -1,5 +1,6 @@
 package com.pauloelienay.mv.domain.dto;
 
+import com.pauloelienay.mv.domain.Endereco;
 import com.pauloelienay.mv.domain.Estabelecimento;
 import com.pauloelienay.mv.domain.Profissional;
 import lombok.Builder;
@@ -13,7 +14,7 @@ import java.util.Set;
 @Setter
 public class GetEstabelecimentoDto {
     private String nome;
-    private String endereco;
+    private Endereco endereco;
     private String telefone;
     private Set<Profissional> profissionais;
 

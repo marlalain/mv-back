@@ -23,7 +23,8 @@ public class Profissional implements Serializable {
 
     private String nome;
 
-    private String endereco;
+    @Embedded
+    private Endereco endereco;
 
     @Embedded
     private Numero numero;

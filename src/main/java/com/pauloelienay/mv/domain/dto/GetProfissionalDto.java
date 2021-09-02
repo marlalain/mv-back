@@ -1,5 +1,6 @@
 package com.pauloelienay.mv.domain.dto;
 
+import com.pauloelienay.mv.domain.Endereco;
 import com.pauloelienay.mv.domain.Estabelecimento;
 import com.pauloelienay.mv.domain.Numero;
 import com.pauloelienay.mv.domain.Profissional;
@@ -14,7 +15,7 @@ import java.util.Set;
 @Setter
 public class GetProfissionalDto {
     private String nome;
-    private String endereco;
+    private Endereco endereco;
     private Numero numero;
     private String funcao;
     private Set<Estabelecimento> estabelecimentos;
