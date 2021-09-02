@@ -1,5 +1,6 @@
 package com.pauloelienay.mv.domain;
 
+import com.pauloelienay.mv.domain.dto.GetEstabelecimentoDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -21,4 +22,8 @@ public class Estabelecimento {
     private String endereco;
 
     private String telefone;
+
+    public GetEstabelecimentoDto convertToDto() {
+        return GetEstabelecimentoDto.convertToDto(this);
+    }
 }

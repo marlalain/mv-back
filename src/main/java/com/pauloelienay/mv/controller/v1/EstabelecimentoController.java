@@ -1,6 +1,7 @@
 package com.pauloelienay.mv.controller.v1;
 
 import com.pauloelienay.mv.domain.Estabelecimento;
+import com.pauloelienay.mv.domain.dto.GetEstabelecimentoDto;
 import com.pauloelienay.mv.service.EstabelecimentoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,13 +25,13 @@ public class EstabelecimentoController {
     private final EstabelecimentoService service;
 
     @GetMapping
-    public ResponseEntity<Page<EntityModel<Estabelecimento>>> getPageableEstabelecimentos
+    public ResponseEntity<Page<EntityModel<GetEstabelecimentoDto>>> getPageableEstabelecimentos
             (@PageableDefault(size = 10, sort = {"id"})Pageable pageable) {
         return new ResponseEntity<>(service.getPageableEstabelecimentos(pageable).map(this::addLinks), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EntityModel<Estabelecimento>> getEstabelecimentoById(@PathVariable long id) {
+    public ResponseEntity<EntityModel<GetEstabelecimentoDto>> getEstabelecimentoById(@PathVariable long id) {
         return new ResponseEntity<>(addLinksById(id), HttpStatus.OK);
     }
 
@@ -57,8 +58,8 @@ public class EstabelecimentoController {
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
-    EntityModel<Estabelecimento> addLinks(Estabelecimento estabelecimento) {
-        EntityModel<Estabelecimento> model = EntityModel.of(estabelecimento);
+    EntityModel<GetEstabelecimentoDto> addLinks(Estabelecimento estabelecimento) {
+        EntityModel<GetEstabelecimentoDto> model = EntityModel.of(estabelecimento.convertToDto());
         model.add(linkTo(methodOn(this.getClass()).getPageableEstabelecimentos(null))
                 .withSelfRel().withType("GET"));
         model.add(linkTo(methodOn(this.getClass()).deleteEstabelecimentoById(estabelecimento.getId()))
@@ -70,7 +71,7 @@ public class EstabelecimentoController {
         return model;
     }
 
-    EntityModel<Estabelecimento> addLinksById(long id) {
+    EntityModel<GetEstabelecimentoDto> addLinksById(long id) {
         return addLinks(service.getEstabelecimentoById(id));
     }
 }
