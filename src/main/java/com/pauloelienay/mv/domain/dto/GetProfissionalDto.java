@@ -25,6 +25,7 @@ public class GetProfissionalDto {
 
     public static GetProfissionalDto convertToDto(Profissional profissional) {
         return GetProfissionalDto.builder()
+                .id(profissional.getId())
                 .nome(profissional.getNome())
                 .endereco(profissional.getEndereco())
                 .numero(profissional.getNumero())

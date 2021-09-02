@@ -23,6 +23,7 @@ public class GetEstabelecimentoDto {
 
     public static GetEstabelecimentoDto convertToDto(Estabelecimento estabelecimento) {
         return GetEstabelecimentoDto.builder()
+                .id(estabelecimento.getId())
                 .nome(estabelecimento.getNome())
                 .endereco(estabelecimento.getEndereco())
                 .telefone(estabelecimento.getTelefone())
