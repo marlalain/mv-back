@@ -67,7 +67,7 @@ public class ProfissionalController {
                 .withSelfRel().withType("GET"));
         model.add(linkTo(methodOn(this.getClass()).deleteProfissinalById(profissional.getId()))
                 .withRel("delete").withType("DELETE"));
-        model.add(linkTo(methodOn(this.getClass()).updateProfissionalById(profissional.getId(), null))
+        model.add(linkTo(methodOn(this.getClass()).updateProfissionalById(profissional.getId(), profissional))
                 .withRel("update").withType("PUT"));
         model.add(linkTo(methodOn(this.getClass()).getPageableProfissionais(null))
                 .withRel("profissionais").withType("GET"));
