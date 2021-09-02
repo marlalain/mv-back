@@ -18,3 +18,8 @@ logging:
   level:
     web: DEBUG
     org.hibernate.SQL: DEBUG
+
+server:
+  error:
+    include-message: always
+    include-stacktrace: on_param
