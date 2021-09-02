@@ -1,6 +1,7 @@
 package com.pauloelienay.mv.service;
 
 import com.pauloelienay.mv.domain.Profissional;
+import com.pauloelienay.mv.domain.dto.GetProfissionalDto;
 import com.pauloelienay.mv.exception.EntityNotFoundException;
 import com.pauloelienay.mv.repository.ProfissionalRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,11 @@ public class ProfissionalService {
 
     public Page<Profissional> getPageableProfissionais(Pageable pageable) {
         return repository.findAll(pageable);
+    }
+
+    public GetProfissionalDto getProfissionalDtoById(long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Profissional could not be found.")).convertToDto();
     }
 
     public Profissional getProfissionalById(long id) {

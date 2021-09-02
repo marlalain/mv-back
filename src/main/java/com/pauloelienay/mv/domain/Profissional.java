@@ -1,5 +1,6 @@
 package com.pauloelienay.mv.domain;
 
+import com.pauloelienay.mv.domain.dto.GetProfissionalDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -25,4 +26,8 @@ public class Profissional implements Serializable {
     private Numero numero;
 
     private String funcao;
+
+    public GetProfissionalDto convertToDto() {
+        return GetProfissionalDto.convertToDto(this);
+    }
 }

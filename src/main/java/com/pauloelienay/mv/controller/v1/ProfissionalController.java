@@ -1,6 +1,7 @@
 package com.pauloelienay.mv.controller.v1;
 
 import com.pauloelienay.mv.domain.Profissional;
+import com.pauloelienay.mv.domain.dto.GetProfissionalDto;
 import com.pauloelienay.mv.service.ProfissionalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,13 +26,13 @@ public class ProfissionalController {
     private final ProfissionalService service;
 
     @GetMapping
-    public ResponseEntity<Page<EntityModel<Profissional>>> getPageableProfissionais
+    public ResponseEntity<Page<EntityModel<GetProfissionalDto>>> getPageableProfissionais
             (@PageableDefault(size = 10, sort = {"id"}) Pageable pageable) {
         return new ResponseEntity<>(service.getPageableProfissionais(pageable).map(this::addLinks), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EntityModel<Profissional>> getProfissionalById(@PathVariable long id) {
+    public ResponseEntity<EntityModel<GetProfissionalDto>> getProfissionalById(@PathVariable long id) {
         return new ResponseEntity<>(addLinksById(id), HttpStatus.OK);
     }
 
@@ -61,8 +62,8 @@ public class ProfissionalController {
         return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
     }
 
-    EntityModel<Profissional> addLinks(Profissional profissional) {
-        EntityModel<Profissional> model = EntityModel.of(profissional);
+    EntityModel<GetProfissionalDto> addLinks(Profissional profissional) {
+        EntityModel<GetProfissionalDto> model = EntityModel.of(profissional.convertToDto());
         model.add(linkTo(methodOn(this.getClass()).getProfissionalById(profissional.getId()))
                 .withSelfRel().withType("GET"));
         model.add(linkTo(methodOn(this.getClass()).deleteProfissinalById(profissional.getId()))
@@ -74,7 +75,7 @@ public class ProfissionalController {
         return model;
     }
 
-    EntityModel<Profissional> addLinksById(long id) {
+    EntityModel<GetProfissionalDto> addLinksById(long id) {
         return addLinks(service.getProfissionalById(id));
     }
 }
