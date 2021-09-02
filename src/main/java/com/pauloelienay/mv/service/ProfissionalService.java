@@ -21,4 +21,19 @@ public class ProfissionalService {
         return repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Profissional could not be found."));
     }
+
+    public Profissional create(Profissional profissional) {
+        return repository.save(profissional);
+    }
+
+    public void deleteProfissionalById(long id) {
+        repository.deleteById(id);
+    }
+
+    public Profissional update(long id, Profissional profissional) {
+        repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Profissional could not be found."));
+        profissional.setId(id);
+        repository.save(profissional);
+        return profissional;
+    }
 }
