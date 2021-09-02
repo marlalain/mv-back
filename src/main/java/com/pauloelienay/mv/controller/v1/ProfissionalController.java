@@ -63,8 +63,14 @@ public class ProfissionalController {
 
     EntityModel<Profissional> addLinks(Profissional profissional) {
         EntityModel<Profissional> model = EntityModel.of(profissional);
-        model.add(linkTo(methodOn(this.getClass()).getProfissionalById(profissional.getId())).withSelfRel());
-        model.add(linkTo(methodOn(this.getClass()).getPageableProfissionais(null)).withRel("profissionais"));
+        model.add(linkTo(methodOn(this.getClass()).getProfissionalById(profissional.getId()))
+                .withSelfRel().withType("GET"));
+        model.add(linkTo(methodOn(this.getClass()).deleteProfissinalById(profissional.getId()))
+                .withRel("delete").withType("DELETE"));
+        model.add(linkTo(methodOn(this.getClass()).updateProfissionalById(profissional.getId(), null))
+                .withRel("update").withType("PUT"));
+        model.add(linkTo(methodOn(this.getClass()).getPageableProfissionais(null))
+                .withRel("profissionais").withType("GET"));
         return model;
     }
 
