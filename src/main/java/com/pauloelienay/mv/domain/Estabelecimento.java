@@ -1,6 +1,7 @@
 package com.pauloelienay.mv.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.pauloelienay.mv.domain.dto.GetEstabelecimentoDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "estabelecimentos")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Estabelecimento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

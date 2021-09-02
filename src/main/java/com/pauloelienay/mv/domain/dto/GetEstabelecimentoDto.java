@@ -1,5 +1,6 @@
 package com.pauloelienay.mv.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.pauloelienay.mv.domain.Endereco;
 import com.pauloelienay.mv.domain.Estabelecimento;
 import com.pauloelienay.mv.domain.Profissional;
@@ -12,6 +13,7 @@ import java.util.Set;
 @Builder
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class GetEstabelecimentoDto {
     private String nome;
     private Endereco endereco;

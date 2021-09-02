@@ -1,6 +1,7 @@
 package com.pauloelienay.mv.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.pauloelienay.mv.domain.dto.GetProfissionalDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "profissionais")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Profissional implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
