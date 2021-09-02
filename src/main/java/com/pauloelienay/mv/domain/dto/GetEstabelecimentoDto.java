@@ -15,6 +15,7 @@ import java.util.Set;
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class GetEstabelecimentoDto {
+    private long id;
     private String nome;
     private Endereco endereco;
     private String telefone;

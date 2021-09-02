@@ -16,6 +16,7 @@ import java.util.Set;
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class GetProfissionalDto {
+    private long id;
     private String nome;
     private Endereco endereco;
     private Numero numero;
