@@ -12,6 +12,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -27,8 +28,10 @@ public class ProfissionalController {
 
     @GetMapping
     public ResponseEntity<Page<EntityModel<GetProfissionalDto>>> getPageableProfissionais
-            (@PageableDefault(size = 10, sort = {"id"}) Pageable pageable) {
-        return new ResponseEntity<>(service.getPageableProfissionais(pageable).map(this::addLinks), HttpStatus.OK);
+            (@PageableDefault(size = Integer.MAX_VALUE, sort = {"id"}) Pageable pageable,
+             @RequestParam(required = false) @Nullable String nome) {
+        return new ResponseEntity<>
+                (service.getPageableProfissionais(pageable, nome).map(this::addLinks), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -70,7 +73,7 @@ public class ProfissionalController {
                 .withRel("delete").withType("DELETE"));
         model.add(linkTo(methodOn(this.getClass()).updateProfissionalById(profissional.getId(), profissional))
                 .withRel("update").withType("PUT"));
-        model.add(linkTo(methodOn(this.getClass()).getPageableProfissionais(null))
+        model.add(linkTo(methodOn(this.getClass()).getPageableProfissionais(null, null))
                 .withRel("profissionais").withType("GET"));
         return model;
     }
