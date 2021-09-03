@@ -12,10 +12,10 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @CrossOrigin
@@ -27,7 +27,7 @@ public class EstabelecimentoController {
 
     @GetMapping
     public ResponseEntity<Page<EntityModel<GetEstabelecimentoDto>>> getPageableEstabelecimentos
-            (@PageableDefault(size = 10, sort = {"id"})Pageable pageable,
+            (@PageableDefault(size = 10, sort = {"id"}) Pageable pageable,
              @RequestParam(required = false) String nome) {
         return new ResponseEntity<>(service.getPageableEstabelecimentos(pageable, nome)
                 .map(this::addLinks), HttpStatus.OK);

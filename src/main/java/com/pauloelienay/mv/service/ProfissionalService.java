@@ -2,7 +2,6 @@ package com.pauloelienay.mv.service;
 
 import com.pauloelienay.mv.domain.Profissional;
 import com.pauloelienay.mv.domain.dto.GetProfissionalDto;
-import com.pauloelienay.mv.exception.EntityBeingUsedException;
 import com.pauloelienay.mv.exception.EntityNotFoundException;
 import com.pauloelienay.mv.repository.ProfissionalRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,17 +17,17 @@ public class ProfissionalService {
     public Page<Profissional> getPageableProfissionais(Pageable pageable, String nome) {
         if (nome == null || nome.isEmpty()) return repository.findAll(pageable);
 
-        return repository.findAllByNome(pageable, nome);
+        return repository.findAllByNomeContains(pageable, nome);
     }
 
     public GetProfissionalDto getProfissionalDtoById(long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Profissional could not be found.")).convertToDto();
+                .orElseThrow(() -> new EntityNotFoundException("Profissional não pôde ser encontrado")).convertToDto();
     }
 
     public Profissional getProfissionalById(long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Profissional could not be found."));
+                .orElseThrow(() -> new EntityNotFoundException("Profissional não pôde ser encontrado"));
     }
 
     public Profissional create(Profissional profissional) {
@@ -36,12 +35,12 @@ public class ProfissionalService {
     }
 
     public void deleteProfissionalById(long id) {
-        repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Profissional could not be found."));
+        repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Profissional não pôde ser encontrado"));
         repository.deleteById(id);
     }
 
     public Profissional update(long id, Profissional profissional) {
-        repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Profissional could not be found."));
+        repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Profissional não pôde ser encontrado"));
         profissional.setId(id);
         repository.save(profissional);
         return profissional;
