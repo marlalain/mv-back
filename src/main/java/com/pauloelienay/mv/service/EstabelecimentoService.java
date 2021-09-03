@@ -5,25 +5,25 @@ import com.pauloelienay.mv.exception.EntityBeingUsedException;
 import com.pauloelienay.mv.exception.EntityNotFoundException;
 import com.pauloelienay.mv.repository.EstabelecimentoRepository;
 import lombok.RequiredArgsConstructor;
-import org.omg.SendingContext.RunTime;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.sql.SQLException;
 
 @Service
 @RequiredArgsConstructor
 public class EstabelecimentoService {
     private final EstabelecimentoRepository repository;
 
-    public Page<Estabelecimento> getPageableEstabelecimentos(Pageable pageable) {
-        return repository.findAll(pageable);
+    public Page<Estabelecimento> getPageableEstabelecimentos(Pageable pageable, String nome) {
+        if (nome == null) return repository.findAll(pageable);
+
+        return repository.findAllByNomeContains(pageable, nome);
     }
 
     public Estabelecimento getEstabelecimentoById(long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Estabelecimento could not be found."));
+                .orElseThrow(() -> new EntityNotFoundException("Estabelecimento não pôde ser encontrado."));
     }
 
     public Estabelecimento create(Estabelecimento estabelecimento) {
@@ -31,16 +31,19 @@ public class EstabelecimentoService {
     }
 
     public void deleteEstabelecimentoById(long id) {
+        repository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Estabelecimento não pôde ser encontrado."));
         try {
             repository.deleteById(id);
-        } catch (Exception _e) {
+        } catch (DataIntegrityViolationException e) {
             throw new EntityBeingUsedException
-                    ("Estabelecimento is being used. Remove Profissionais from it and try again.");
+                    ("Estabelecimento está sendo usado. Remova Profissionais dele e tente novamente.");
         }
     }
 
     public Estabelecimento update(long id, Estabelecimento estabelecimento) {
-        repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Estabelecimento could not be found."));
+        repository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Estabelecimento não pôde ser encontrado."));
         estabelecimento.setId(id);
         repository.save(estabelecimento);
         return estabelecimento;

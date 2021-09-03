@@ -12,6 +12,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
@@ -26,8 +27,10 @@ public class EstabelecimentoController {
 
     @GetMapping
     public ResponseEntity<Page<EntityModel<GetEstabelecimentoDto>>> getPageableEstabelecimentos
-            (@PageableDefault(size = 10, sort = {"id"})Pageable pageable) {
-        return new ResponseEntity<>(service.getPageableEstabelecimentos(pageable).map(this::addLinks), HttpStatus.OK);
+            (@PageableDefault(size = 10, sort = {"id"})Pageable pageable,
+             @RequestParam(required = false) String nome) {
+        return new ResponseEntity<>(service.getPageableEstabelecimentos(pageable, nome)
+                .map(this::addLinks), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -60,13 +63,13 @@ public class EstabelecimentoController {
 
     EntityModel<GetEstabelecimentoDto> addLinks(Estabelecimento estabelecimento) {
         EntityModel<GetEstabelecimentoDto> model = EntityModel.of(estabelecimento.convertToDto());
-        model.add(linkTo(methodOn(this.getClass()).getPageableEstabelecimentos(null))
+        model.add(linkTo(methodOn(this.getClass()).getPageableEstabelecimentos(null, null))
                 .withSelfRel().withType("GET"));
         model.add(linkTo(methodOn(this.getClass()).deleteEstabelecimentoById(estabelecimento.getId()))
                 .withRel("delete").withType("DELETE"));
         model.add(linkTo(methodOn(this.getClass()).updateEstabelecimentoById(estabelecimento.getId(), estabelecimento))
                 .withRel("update").withType("PUT"));
-        model.add(linkTo(methodOn(this.getClass()).getPageableEstabelecimentos(null))
+        model.add(linkTo(methodOn(this.getClass()).getPageableEstabelecimentos(null, null))
                 .withRel("estabelecimentos").withType("GET"));
         return model;
     }
